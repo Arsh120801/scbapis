@@ -1,0 +1,19 @@
+{
+  "name": "scbapis",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": "\"SCB_Mobile_Team\"",
+  "license": "ISC",
+  "dependencies": {
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "firebase": "^8.6.8",
+    "uuid": "^9.0.0"
+  }
+}
