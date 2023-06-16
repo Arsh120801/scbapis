@@ -260,18 +260,10 @@ app.post('/registerapp',async(req,res)=>{
                 "appVersionNumber":appVersionNumber,
                 "deviceFingerPrint" :deviceFingerPrint
             })
-            const response = {
-                "res":"App Registered",
-                "deviceFingerPrint":deviceFingerPrint
-            }
-            res.json(response)
+            res.send(`deviceFingerPrint: ${deviceFingerPrint}`)
         }
         else{
-            const response = {
-                "res":"App is already Registered",
-                "deviceFingerPrint":deviceFingerPrint
-            }
-            res.json(response)
+            res.send(`deviceFingerPrint: ${deviceFingerPrint}`)
         }
     })
 })
