@@ -249,8 +249,9 @@ app.post('/registerapp',async(req,res)=>{
             }
         })
 
+        const deviceFingerPrint = hashfunc(packageid+appVersionNumber+uid);
+
         if(!appregistered){
-            const deviceFingerPrint = hashfunc(packageid+appVersionNumber+uid);
             await Register.doc(deviceFingerPrint).set({
                 "appid":appid,
                 "platform":platform,
@@ -259,10 +260,10 @@ app.post('/registerapp',async(req,res)=>{
                 "appVersionNumber":appVersionNumber,
                 "deviceFingerPrint" :deviceFingerPrint
             })
-            res.send('app registered')
+            res.send(`app registered deviceFingerPrint: ${deviceFingerPrint}`)
         }
         else{
-            res.send('already registered')
+            res.send(`already registered deviceFingerPrint: ${deviceFingerPrint}`)
         }
     })
 })
