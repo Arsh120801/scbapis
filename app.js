@@ -143,7 +143,7 @@ app.post('/login',async(req,res)=>{
                 "loginTime":formattedDateTime
             })
             req.session.user={email,id:'scb'}
-            res.send(`logged in ${email} !`);
+            res.send(`logged in ${userid} !`);
         }
     })
 })
