@@ -271,6 +271,7 @@ app.post('/registerapp',async(req,res)=>{
 //initialization
 app.post('/initializeTracking',async(req,res)=>{
     const deviceFingerPrint = req.body.deviceFingerPrint;
+    const deviceName = req.body.deviceName;
     const ostype = req.body.ostype;
     const ram = req.body.ram;
     const storage = req.body.storage;
@@ -287,6 +288,7 @@ app.post('/initializeTracking',async(req,res)=>{
         if(appfound){
             await Deviceinfo.doc().set({
                 "deviceFingerPrint":deviceFingerPrint,
+                "deviceName":deviceName,
                 "ostype":ostype,
                 "ram":ram,
                 "storage":storage,
@@ -304,7 +306,6 @@ app.post('/initializeTracking',async(req,res)=>{
 //API statastics
 app.post('/apistats',requirelogin,async(req,res)=>{
     const deviceFingerPrint = req.body.deviceFingerPrint;
-    const deviceName = req.body.deviceName;
     const ramUsed = req.body.ramUsed;
     const networkspeed=req.body.networkspeed;
     const reqtime=req.body.reqtime;
@@ -328,7 +329,6 @@ app.post('/apistats',requirelogin,async(req,res)=>{
         "userid":userid,
         "packageid":packageid,
         "battery":battery,
-        "deviceName":deviceName,
         "deviceFingerPrint" :deviceFingerPrint
     });
     res.send("Dynamic Device information Added")
