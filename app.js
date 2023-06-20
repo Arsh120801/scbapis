@@ -194,7 +194,7 @@ app.get('/transactionlist',requirelogin,async(req,res)=>{
             }
             transactions.push(fields)
         })
-        res.send(transactions)
+        res.json(transactions);
     })
 })
 
