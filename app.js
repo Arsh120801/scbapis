@@ -307,12 +307,15 @@ app.post('/initializeTracking',async(req,res)=>{
 app.post('/apistats',requirelogin,async(req,res)=>{
     const deviceFingerPrint = req.body.deviceFingerPrint;
     const ramUsed = req.body.ramUsed;
-    const networkspeed=req.body.networkspeed;
+    const upspeed=req.body.upspeed;
+    const downspeed=req.body.downspeed;
     const reqtime=req.body.reqtime;
     const restime=req.body.restime;
+    const parsetime = req.body.battery;
     const rendertime=req.body.rendertime;
     const packageid=req.body.packageid;
     const battery=req.body.battery;
+    const apicalled = req.body.apicalled
     
     const email = req.session.user.email;
     let userid="";
@@ -322,14 +325,17 @@ app.post('/apistats',requirelogin,async(req,res)=>{
 
     await Apistats.doc().set({
         "ramUsed":ramUsed,
-        "networkspeed":networkspeed,
+        "upspeed":upspeed,
+        "downspeed":downspeed,
         "reqtime":reqtime,
         "restime":restime,
         "rendertime":rendertime,
         "userid":userid,
         "packageid":packageid,
         "battery":battery,
-        "deviceFingerPrint" :deviceFingerPrint
+        "deviceFingerPrint" :deviceFingerPrint,
+        "parsetime":parsetime,
+        "apicalled":apicalled
     });
     res.send("Dynamic Device information Added")
 })
