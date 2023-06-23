@@ -316,7 +316,7 @@ app.post('/apistats',requirelogin,async(req,res)=>{
     const packageid=req.body.packageid;
     const battery=req.body.battery;
     const apicalled = req.body.apicalled
-    
+    const batterytemp = req.body.batterytemp
     const email = req.session.user.email;
     let userid="";
     await User.doc(email).get().then((user)=>{
@@ -335,7 +335,8 @@ app.post('/apistats',requirelogin,async(req,res)=>{
         "battery":battery,
         "deviceFingerPrint" :deviceFingerPrint,
         "parsetime":parsetime,
-        "apicalled":apicalled
+        "apicalled":apicalled,
+        "batterytemp":batterytemp
     });
     res.send("Dynamic Device information Added")
 })
