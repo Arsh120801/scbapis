@@ -27,6 +27,32 @@ const { v4: uuidv4 } = require('uuid');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 
+//consvert in GB
+function bytesToGB(bytes) {
+    var gb = bytes / (1024 * 1024 * 1024);
+    return gb.toFixed(2); // Round to 2 decimal places
+}
+
+//timestamp to readable time
+function formatTimestamp(timestamp) {
+    var date = new Date(timestamp);
+    var options = {
+      timeZone: 'Asia/Kolkata',
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      fractionalSecondDigits: 3,
+    };
+  
+    return date.toLocaleString('en-IN', options);
+  }
+  
+    
+  
+
 //sessions setup
 const sessionconfig={
     name:'session',
@@ -273,10 +299,10 @@ app.post('/initializeTracking',async(req,res)=>{
     const deviceFingerPrint = req.body.deviceFingerPrint;
     const deviceName = req.body.deviceName;
     const ostype = req.body.ostype;
-    const ram = req.body.ram;
-    const storage = req.body.storage;
+    const ram = bytesToGB(req.body.ram)+"GB";
+    const storage = bytesToGB(req.body.storage)+"GB";
     const packageid = req.body.packageid;
-    const batteryCap = req.body.batteryCap;
+    const batteryCap = req.body.batteryCap +"mAh";
     
     var appfound = false;
     Register.get().then(async(q)=>{
@@ -306,17 +332,17 @@ app.post('/initializeTracking',async(req,res)=>{
 //API statastics
 app.post('/apistats',requirelogin,async(req,res)=>{
     const deviceFingerPrint = req.body.deviceFingerPrint;
-    const ramUsed = req.body.ramUsed;
-    const upspeed=req.body.upspeed;
-    const downspeed=req.body.downspeed;
-    const reqtime=req.body.reqtime;
-    const restime=req.body.restime;
-    const parsetime = req.body.battery;
-    const rendertime=req.body.rendertime;
+    const ramUsed = bytesToGB(req.body.ramUsed)+" GB";
+    const upspeed=req.body.upspeed + " Mb/Sec";
+    const downspeed=req.body.downspeed + " Mb/Sec";
+    const reqtime=formatTimestamp(Number(req.body.reqtime));
+    const restime=formatTimestamp(Number(req.body.restime));
+    const parsetime = req.body.battery + " ms";
+    const rendertime=req.body.rendertime + " ms";
     const packageid=req.body.packageid;
-    const battery=req.body.battery;
+    const battery=req.body.battery + "%";
     const apicalled = req.body.apicalled
-    const batterytemp = req.body.batterytemp
+    const batterytemp = req.body.batterytemp + "°C"
     const email = req.session.user.email;
     let userid="";
     await User.doc(email).get().then((user)=>{
