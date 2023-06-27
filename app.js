@@ -357,7 +357,7 @@ app.post('/initializeTracking',async(req,res)=>{
                 "packageid":packageid,
                 "uid":uid
             });
-            res.send("app verified")
+            res.send(`app verified, deviceFingerPrint: ${deviceFingerPrint}`)
         }
         else{
             res.send("app not found");
