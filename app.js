@@ -24,7 +24,7 @@ const Transaction=require('./transaction')
 const Deviceinfo=require('./deviceinfo')
 const Apistats=require('./apistats')
 const { v4: uuidv4 } = require('uuid');
-const session = require('express-session');
+const session = require('cookie-session');
 const cookieParser = require('cookie-parser');
 
 //consvert in GB
