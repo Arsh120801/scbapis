@@ -261,6 +261,37 @@ app.post('/transactionlist/:id/reject',requirelogin,async(req,res)=>{
 //Register App
 app.post('/registerapp',async(req,res)=>{
     const appid = req.body.appid;
+    const platform = req.body.platform;
+    const packageid = appid+platform;
+    const appVersionNumber = req.body.appVersionNumber;
+
+    let appregistered = false;
+
+    Register.get().then(async(q)=>{
+        q.forEach(async(registerapp)=>{
+            if(registerapp.data().packageid===packageid && registerapp.data().appVersionNumber===appVersionNumber){
+                appregistered=true;
+            }
+        })
+
+        if(!appregistered){
+            await Register.doc().set({
+                "appid":appid,
+                "platform":platform,
+                "packageid":packageid,
+                "appVersionNumber":appVersionNumber
+            })
+            res.send('Application Registered')
+        }
+        else{
+            res.send('Application Is Already Registered!')
+        }
+    })
+})
+
+
+/*app.post('/registerapp',async(req,res)=>{
+    const appid = req.body.appid;
     const uid = req.body.uid;
     const platform = req.body.platform;
     const packageid = appid+platform;
@@ -292,9 +323,49 @@ app.post('/registerapp',async(req,res)=>{
             res.send(`deviceFingerPrint: ${deviceFingerPrint}`)
         }
     })
-})
+})*/
+
 
 //initialization
+app.post('/initializeTracking',async(req,res)=>{
+    //const deviceFingerPrint = req.body.deviceFingerPrint;
+    const deviceName = req.body.deviceName;
+    const uid = req.body.uid;
+    const ostype = req.body.ostype;
+    const ram = bytesToGB(req.body.ram)+"GB";
+    const storage = bytesToGB(req.body.storage)+"GB";
+    const packageid = req.body.packageid;
+    const batteryCap = req.body.batteryCap +"mAh";
+    const appVersionNumber = req.body.appVersionNumber;
+    
+    var appfound = false;
+    Register.get().then(async(q)=>{
+        await q.forEach(async(application)=>{
+            if(application.data().packageid===packageid && application.data().appVersionNumber===appVersionNumber){
+                appfound=true;
+            }
+        })
+        if(appfound){
+            const deviceFingerPrint = hashfunc(packageid+appVersionNumber+uid);
+            await Deviceinfo.doc(deviceFingerPrint).set({
+                "deviceFingerPrint":deviceFingerPrint,
+                "deviceName":deviceName,
+                "ostype":ostype,
+                "ram":ram,
+                "storage":storage,
+                "batteryCap":batteryCap,
+                "packageid":packageid,
+                "uid":uid
+            });
+            res.send("app verified")
+        }
+        else{
+            res.send("app not found");
+        }
+    })
+})
+
+/*
 app.post('/initializeTracking',async(req,res)=>{
     const deviceFingerPrint = req.body.deviceFingerPrint;
     const deviceName = req.body.deviceName;
@@ -327,7 +398,7 @@ app.post('/initializeTracking',async(req,res)=>{
             res.send("app not found");
         }
     })
-})
+})*/
 
 //API statastics
 app.post('/apistats',requirelogin,async(req,res)=>{
