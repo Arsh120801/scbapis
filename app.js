@@ -142,7 +142,7 @@ app.post('/login',async(req,res)=>{
            }
         })
         if(!comparepsd){
-            res.json("jsn-wrong id/password")
+            res.send("wrong id/password")
         }
         else{
             let userid="";
@@ -169,7 +169,7 @@ app.post('/login',async(req,res)=>{
                 "loginTime":formattedDateTime
             })
             req.session.user={email,id:'scb'}
-            res.json(`jsn-logged in!`);
+            res.send(`Logged in! ${userid}`);
         }
     })
 })
