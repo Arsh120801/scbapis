@@ -336,6 +336,7 @@ app.post('/initializeTracking',async(req,res)=>{
     const storage = bytesToGB(req.body.storage)+"GB";
     const packageid = req.body.packageid;
     const batteryCap = req.body.batteryCap +"mAh";
+    const countryName = req.body.countryName;
     const appVersionNumber = req.body.appVersionNumber;
     
     var appfound = false;
@@ -355,6 +356,7 @@ app.post('/initializeTracking',async(req,res)=>{
                 "storage":storage,
                 "batteryCap":batteryCap,
                 "packageid":packageid,
+                "countryName":countryName,
                 "uid":uid
             });
             res.send(`app verified, deviceFingerPrint: ${deviceFingerPrint}`)
@@ -412,8 +414,12 @@ app.post('/apistats',requirelogin,async(req,res)=>{
     const rendertime=req.body.rendertime + " ms";
     const packageid=req.body.packageid;
     const battery=req.body.battery + "%";
-    const apicalled = req.body.apicalled
-    const batterytemp = req.body.batterytemp + "°C"
+    const apicalled = req.body.apicalled;
+    const batterytemp = req.body.batterytemp + "°C";
+    const NetworkType = req.body.NetworkType;
+    const NetworkOperator = req.body.NetworkOperator;
+    const Context = req.body.Context;
+    const Event = req.body.Event;
     const email = req.session.user.email;
     let userid="";
     await User.doc(email).get().then((user)=>{
@@ -433,6 +439,10 @@ app.post('/apistats',requirelogin,async(req,res)=>{
         "deviceFingerPrint" :deviceFingerPrint,
         "parsetime":parsetime,
         "apicalled":apicalled,
+        "NetworkType":NetworkType,
+        "NetworkOperator":NetworkOperator,
+        "Context":Context,
+        "Event":Event,
         "batterytemp":batterytemp
     });
     res.send("Dynamic Device information Added")
