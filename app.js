@@ -336,7 +336,7 @@ app.post('/initializeTracking',async(req,res)=>{
     const storage = bytesToGB(req.body.storage)+"GB";
     const packageid = req.body.packageid;
     const batteryCap = req.body.batteryCap +"mAh";
-    const countryName = req.body.countryName;
+    const countryCode = req.body.countryCode;
     const appVersionNumber = req.body.appVersionNumber;
     
     var appfound = false;
@@ -356,7 +356,7 @@ app.post('/initializeTracking',async(req,res)=>{
                 "storage":storage,
                 "batteryCap":batteryCap,
                 "packageid":packageid,
-                "countryName":countryName,
+                "countryCode":countryCode,
                 "uid":uid
             });
             res.send(`app verified, deviceFingerPrint: ${deviceFingerPrint}`)
@@ -420,7 +420,7 @@ app.post('/apistats',requirelogin,async(req,res)=>{
     const NetworkOperator = req.body.NetworkOperator;
     const Context = req.body.Context;
     const Event = req.body.Event;
-    const email = req.session.user.email;
+    const email = req.body.email;
     let userid="";
     await User.doc(email).get().then((user)=>{
         userid = user.data().userid;
