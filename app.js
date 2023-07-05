@@ -332,10 +332,10 @@ app.post('/initializeTracking',async(req,res)=>{
     const deviceName = req.body.deviceName;
     const uid = req.body.uid;
     const ostype = req.body.ostype;
-    const ram = bytesToGB(req.body.ram)+"GB";
-    const storage = bytesToGB(req.body.storage)+"GB";
+    const ram = bytesToGB(req.body.ram)+" GB";
+    const storage = bytesToGB(req.body.storage)+" GB";
     const packageid = req.body.packageid;
-    const batteryCap = req.body.batteryCap +"mAh";
+    const batteryCap = req.body.batteryCap +" mAh";
     const countryCode = req.body.countryCode;
     const appVersionNumber = req.body.appVersionNumber;
     
